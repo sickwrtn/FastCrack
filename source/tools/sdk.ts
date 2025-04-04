@@ -263,7 +263,7 @@ class my_struct implements interfaces.my_struct{
     }
     //유저 정보 조회
     getUser(): interfaces.response{
-        let request = requests.getAfetch(env.wrtn_api + '/user');
+        let request = requests.getAfetch(env.wrtn_api + '/character/character-profiles'); // /user
         return request;
     }
     //슈퍼챗 관련 조회
@@ -274,8 +274,8 @@ class my_struct implements interfaces.my_struct{
     //페르소나 조회
     getPersona(): Array<interfaces.characterChatProfile>{
         let wrtn_uid = requests.getAfetch(env.wrtn_api + '/character/character-profiles').data.wrtnUid;
-        let user_pid = requests.getAfetch(env.wrtn_api + `/character-profiles/${wrtn_uid}`).data._id;
-        let character_profiles = requests.getAfetch(env.wrtn_api + `/character-profiles/${user_pid}/character-chat-profiles`).data.characterChatProfiles;
+        let user_pid = requests.getAfetch(env.wrtn_api + `/character/character-profiles/${wrtn_uid}`).data._id;
+        let character_profiles = requests.getAfetch(env.wrtn_api + `/character/character-profiles/${user_pid}/character-chat-profiles`).data.characterChatProfiles;
         return character_profiles;
     }
     //대표프로필 조회
@@ -290,6 +290,7 @@ class my_struct implements interfaces.my_struct{
         }
         return null;
     }
+    //페르소나 수정
     setPersona(personaId: string,name: string,information: string,isRepresentative: boolean): interfaces.response{
         let wrtn_uid = requests.getAfetch(env.wrtn_api + '/user').data.wrtnUid;
         let user_pid = requests.getAfetch(env.wrtn_api + `/character-profiles/${wrtn_uid}`).data._id;

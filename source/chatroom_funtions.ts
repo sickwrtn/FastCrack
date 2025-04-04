@@ -248,6 +248,7 @@ export function persona_change(menus){
         alert("대화프로필을 만들어 해주세요.");
         return true;
     }
+    
     let c: number = 0;
     if (document.getElementById("personas") != null){
         document.getElementById("personas").remove();
@@ -256,6 +257,7 @@ export function persona_change(menus){
     persona_div.setAttribute("id","personas");
     for (const datum of data) {
         const personaL = menus.get(env.persona_name).cloneNode(true);
+
         const for_personaL = document.createElement("div");//페르소나 한칸 띄우기
         personaL.insertBefore(for_personaL,personaL.childNodes[0]);
         const personaL_p = personaL.childNodes.item(2); //페르소나 text
@@ -271,10 +273,15 @@ export function persona_change(menus){
         persona_div.appendChild(personaL);
         c++;
     }
-    tools.insertAfter(document.getElementsByClassName("css-uxwch2").item(0),document.getElementsByClassName("css-uxwch2").item(0).childNodes.item(3),persona_div);
+
+    console.log(c);
+
+    tools.insertAfter(document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0),document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0).childNodes.item(2),persona_div);
     debug("persona",0);
 }
 
+
+//커스텀 테마
 export function custumThem():void {
     const them_popup = new popup("커스텀 테마");
     them_popup.open();
