@@ -505,18 +505,12 @@ export interface situationImage{
     imageUrl: string;
 }
 
-export interface defaultSuperChatModel{
-    name: string;
-    model: string;
-    icon: icon;
-}
 export interface myCharacter extends ids{
     initialMessages: Array<string>;
     creator: creator;
     name: string;
     description: string;
     categories: Array<categorie>;
-    defaultSuperChatModel: defaultSuperChatModel;
     chatCount: number;
     chatUserCount: number;
     likeCount: number;
@@ -567,7 +561,6 @@ export interface character extends ids{
     name: string;
     description: string;
     categories: Array<categorie>;
-    defaultSuperChatModel: defaultSuperChatModel;
     chatCount: number;
     chatUserCount: number;
     likeCount: number;
