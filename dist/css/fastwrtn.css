@@ -1,0 +1,121 @@
+.review {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 300px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+.content { /* 첫 번째 <p> 태그에 스타일 적용 */
+    font-weight: bold; 
+}  
+
+.review h2 {
+    margin-bottom: 5px;
+    color: #333; /* Set heading color */
+    font-size: 16px; /* Increase heading size */
+}
+
+.review p {
+    margin: 0;
+    color: #666; /* Set paragraph color */
+    font-size: 14px; /* Increase paragraph size */
+}
+
+.review button {
+    color: white;
+    padding: 5px 10px; /* Padding for smaller button */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px; /* Smaller font size */
+    margin: 4px 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+.recommand {
+    background-color: #4CAF50;
+}
+
+.report {
+    background-color: #c81515;
+}
+
+.recommand:hover {
+    background-color: #3e8e41;
+}
+
+.recommand:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.report:hover {
+    background-color: #9b0b0bb2;
+}
+
+.report:active {
+    background-color: #9b0b0bb2;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-form {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+}
+
+.review-form label {
+    font-weight: bold;
+}
+
+.rating_label {
+    display: inline-block;
+}
+
+.name_label {
+    display: inline-block;
+}
+
+.review-form textarea {
+    width: 288px ;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+/* ... 기존 버튼 스타일 유지 ... */
+
+@media (max-width: 768px) {
+    .review-form {
+        padding: 10px;
+    }
+}
+
+.review-form input[type="text"] {
+    display: inline-block;
+    width: 310px; 
+    height: 30px;
+    padding: 10px;
+    margin-bottom: 10px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; 
+  }

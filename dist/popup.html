@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="./css/fastwrtn.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h1></h1>
+    <div class="review-form">
+      <label for="name" class="name_label">이름:</label>
+      <input type="text" id="name" placeholder="이름을 입력하세요" maxlength="15">
+      <label for="rating" class="rating_label">별점: </label>
+      <select id="rating">
+        <option value="1">1점</option>
+        <option value="2">2점</option>
+        <option value="3">3점</option>
+        <option value="4">4점</option>
+        <option value="5">5점</option>
+      </select>
+      <textarea id="review-text" placeholder="리뷰를 입력하세요" maxlength="25"></textarea>
+      <button id="submit-button">제출</button>
+    </div>
+    <script src="./src/popup.js" type="module"></script>
+</body>
+</html>
