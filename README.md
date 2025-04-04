@@ -139,8 +139,3 @@ chatroom_struct.setUsernote(content) // 유저 노트 변경
 [1.3.1v] 1.2v 문제로 1.1v으로 롤백
 
 [1.2v] 새로고침해야 적용되는 문제 고침(func main + setInterval) + 코드 주석 추가
-
-
-
-
-
