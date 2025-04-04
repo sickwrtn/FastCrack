@@ -31,7 +31,7 @@ createInterval(setStrict((clear)=>{
     
                 //pe 함수 실행
                 pe.childNodes.item(1).textContent = "페르소나";
-                pe.addEventListener("click", setStrict(() => openPersonaMenu(sidebar)));
+                pe.addEventListener("click", setStrict(() => openPersonaMenu(pe)));
                 
                 sidebar.appendChild(pe);
             }

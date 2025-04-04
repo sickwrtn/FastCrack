@@ -36,7 +36,7 @@ function persona_modal_func(menus: interfaces.chatroom_menus_class,data: Array<i
         if (re.result == "SUCCESS"){
             alert("페르소나 등록 성공!");
             persona_popup.close();
-            persona_change(menus);
+            //persona_change(menus);
         }
         else{
             alert("페르소나 등록 실패!");
@@ -267,7 +267,7 @@ export function openPersonaMenu(elements: HTMLElement){
     personas.forEach((persona, index) => {
         const newPersonaMenu = elements.cloneNode(true) as HTMLElement;
 
-        // 상단에 간격을 위한 div를 삽입
+        // 들여쓰기를 위한 div를 삽입
         const spacer = document.createElement("div");
         newPersonaMenu.insertBefore(spacer, newPersonaMenu.firstChild);
 
@@ -281,17 +281,26 @@ export function openPersonaMenu(elements: HTMLElement){
 
         //newPersonaMenu.addEventListener('click', () => persona_modal_func(undefined, personas, newPersonaMenu)); // undefined
 
-        personaDiv.appendChild(newPersonaMenu);    });
+        personaDiv.appendChild(newPersonaMenu);    
+    });
+    
+    const container = document.querySelector(".css-uxwch2");
+    if (container) {
+        const thirdChild = container.children[2];
 
-    const menu = document.querySelector(".css-uxwch2 edj5hvk0");
-    if (menu) {
-        tools.insertAfter(document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0),
-            document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0).childNodes.item(2),
-            personaDiv
-        );
+        if (thirdChild) {
+            
+            alert("3번째 자식에 추가");
+            container.appendChild(personaDiv);
+        } 
+        else {
+            alert("3번째 자식이 없음");
+            container.appendChild(personaDiv);
+        }
     } 
     else {
-        // 메뉴창을 찾지 못하면 body에 추가
+        // 지정한 클래스 요소를 찾지 못하면 body에 추가
+        alert("no container");
         document.body.appendChild(personaDiv);
     }
 
