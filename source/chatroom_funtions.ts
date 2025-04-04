@@ -13,7 +13,7 @@ import { cssApply, cssNoIntervalApply, directCssApply } from "./Fast Css/apply";
 const wrtn: interfaces.wrtn_api_class = new wrtn_api_class();
 
 //페르소나 목록을 누를시
-function persona_modal_func(menus: interfaces.chatroom_menus_class,data: Array<interfaces.characterChatProfile>,personaL: any){
+function persona_modal_func(elements: HTMLElement,data: Array<interfaces.characterChatProfile>,personaL: any){
     var m_i = 0;
     for (const m of data) {
         if (`${m_i}` == personaL.id) {
@@ -25,10 +25,12 @@ function persona_modal_func(menus: interfaces.chatroom_menus_class,data: Array<i
     }
     const persona_popup = new popup("페르소나");
     persona_popup.open();
+
     var personal_modal_name = persona_popup.addTextarea("이름","나의 이름","캐릭터가 불러줄 나의 이름을 입력해 주세요",12); 
     personal_modal_name.setValue(name);
     var personal_modal_info = persona_popup.addTextarea("정보","성별,나이,외형 등","캐릭터가 기억할 나의 정보를 입력해주세요",100,100);
     personal_modal_info.setValue(information);
+
     //모달 등록버튼을 눌렀을시
     persona_popup.setSumbit("등록",()=>{
         //모달의 내용을 조합해 페르소나 등록 및 대표프로필로 설정
@@ -36,7 +38,7 @@ function persona_modal_func(menus: interfaces.chatroom_menus_class,data: Array<i
         if (re.result == "SUCCESS"){
             alert("페르소나 등록 성공!");
             persona_popup.close();
-            //persona_change(menus);
+            openPersonaMenu(elements);
         }
         else{
             alert("페르소나 등록 실패!");
@@ -279,7 +281,8 @@ export function openPersonaMenu(elements: HTMLElement){
 
         newPersonaMenu.setAttribute("id", `${index}`);
 
-        //newPersonaMenu.addEventListener('click', () => persona_modal_func(undefined, personas, newPersonaMenu)); // undefined
+        // 이벤트 리스너
+        newPersonaMenu.addEventListener('click', () => persona_modal_func(elements, personas, newPersonaMenu)); 
 
         personaDiv.appendChild(newPersonaMenu);    
     });
