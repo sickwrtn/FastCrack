@@ -38,7 +38,6 @@ class my_struct implements interfaces.my_struct{
             chatExamples: json_data.chatExamples,
             situationImages: json_data.situationImages,
             categoryIds: [json_data.categories[0]._id],
-            defaultSuperChatModel: json_data.defaultSuperChatModel.model,
             tags: json_data.tags,
             visibility: json_data.visibility,
             promptTemplate: json_data.promptTemplate.template,
@@ -83,7 +82,6 @@ class my_struct implements interfaces.my_struct{
                 chatExamples: json_data.chatExamples,
                 situationImages: json_data.situationImages,
                 categoryIds: [json_data.categories[0]._id],
-                defaultSuperChatModel: json_data.defaultSuperChatModel.model,
                 tags: json_data.tags,
                 visibility: visibility,
                 promptTemplate: json_data.promptTemplate.template,
@@ -108,7 +106,6 @@ class my_struct implements interfaces.my_struct{
                 chatExamples: json_data.chatExamples,
                 situationImages: json_data.situationImages,
                 categoryIds: [json_data.categories[0]._id],
-                defaultSuperChatModel: json_data.defaultSuperChatModel.model,
                 tags: json_data.tags,
                 visibility: visibility,
                 promptTemplate: json_data.promptTemplate.template,
@@ -240,13 +237,13 @@ class my_struct implements interfaces.my_struct{
             images: [],
             isSuperMode: IsSuperMode
         }).data;
-        requests.getAfetch(env.wrtn_api2 + `/character-chat/characters/chat/${this.json._id}/message/${created_msg}`);
+        requests.getAfetch(env.wrtn_api2 + `/character-chat/characters/chat/chat/${this.json._id}/message/${created_msg}`);
         let recontent = requests.getAfetch(env.wrtn_api2 + `/character-chat/characters/chat/${this.json._id}/message/${created_msg}/result`);
         return new message_struct(recontent.data);
     }
     //유저노트 가져오기
     getUsernote(): string{
-        let request = requests.getAfetch(env.wrtn_api2 + `/api/v2/chat-room/${this.json._id}`);
+        let request = requests.getAfetch(env.wrtn_api2 + `/character-chat/api/v2/chat-room/${this.json._id}`);
         return request.data.character.userNote.content
     }
     //유저노트 입력
@@ -276,7 +273,7 @@ class my_struct implements interfaces.my_struct{
     }
     //페르소나 조회
     getPersona(): Array<interfaces.characterChatProfile>{
-        let wrtn_uid = requests.getAfetch(env.wrtn_api + '/user').data.wrtnUid;
+        let wrtn_uid = requests.getAfetch(env.wrtn_api + '/character/character-profiles').data.wrtnUid;
         let user_pid = requests.getAfetch(env.wrtn_api + `/character-profiles/${wrtn_uid}`).data._id;
         let character_profiles = requests.getAfetch(env.wrtn_api + `/character-profiles/${user_pid}/character-chat-profiles`).data.characterChatProfiles;
         return character_profiles;

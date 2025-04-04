@@ -463,11 +463,6 @@ function plus_modal_no(isModal,character_list,fe: HTMLDivElement){
     if (character_list[fe.id].isAdult){
         plus_modal_tabs.appendChild(plus_modal_IsAudult);
     }
-    if (character_list[fe.id].defaultSuperChatModel.model == "SONNET3.7"){
-        const mark = document.createElement("div");
-        mark.innerHTML = fronHtml.sonnetMark;
-        plus_modal_tabs.appendChild(mark.childNodes.item(0));
-    }
     //이미지 있으면 이미지 마크 추가
     if (!character_list[fe.id].hasImage){
         plus_modal_tabs.childNodes.item(0).remove();
