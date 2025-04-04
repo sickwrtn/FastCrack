@@ -235,49 +235,67 @@ export function AfterMemory_func(){
 }
 
 //페르소나 버튼 누를시
-export function persona_change(menus){
-    try{
-        var data: Array<interfaces.characterChatProfile> = wrtn.getPersona();
-        console.log(data);
-        if (data.length == 0){
-            alert("대화프로필을 만들어 해주세요.");
+export function openPersonaMenu(elements: HTMLElement){
+    let personas;
+
+    try {
+        personas = wrtn.getPersona(); // 페르소나 데이터 가져오기
+        if (personas.length === 0) {
+            alert("대화프로필을 만들어 주세요.");
             return true;
         }
-    }
+        else if(!personas){
+            alert("올바르지 않은 personas.");
+            return true;
+        }
+    } 
     catch{
-        alert("대화프로필을 만들어 해주세요.");
+        alert("대화프로필을 만들어 주세요.");
         return true;
     }
-    
-    let c: number = 0;
-    if (document.getElementById("personas") != null){
-        document.getElementById("personas").remove();
-    }
-    var persona_div = document.createElement("div");
-    persona_div.setAttribute("id","personas");
-    for (const datum of data) {
-        const personaL = menus.get(env.persona_name).cloneNode(true);
 
-        const for_personaL = document.createElement("div");//페르소나 한칸 띄우기
-        personaL.insertBefore(for_personaL,personaL.childNodes[0]);
-        const personaL_p = personaL.childNodes.item(2); //페르소나 text
-        //대표 프로필일 경우 '<-' 붙이기 아니면 없음
-        if (datum.isRepresentative){
-            personaL_p.textContent = `${datum.name} <-`;
-        }
-        else {
-            personaL_p.textContent = datum.name;
-        }
-        personaL.setAttribute("id",`${c}`) //페르소나 요소 id 지정
-        personaL.addEventListener('click',() => persona_modal_func(menus,data,personaL));
-        persona_div.appendChild(personaL);
-        c++;
+    // 기존 페르소나 컨테이너 제거
+    const existingContainer = document.getElementById("personas");
+    if (existingContainer) {
+        existingContainer.remove();
     }
 
-    console.log(c);
+    // 페르소나 목록을 담을 div 생성 (컨테이너 역할)
+    const personaDiv = document.createElement("div");
+    personaDiv.setAttribute("id", "personas");
 
-    tools.insertAfter(document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0),document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0).childNodes.item(2),persona_div);
-    debug("persona",0);
+    personas.forEach((persona, index) => {
+        const newPersonaMenu = elements.cloneNode(true) as HTMLElement;
+
+        // 상단에 간격을 위한 div를 삽입
+        const spacer = document.createElement("div");
+        newPersonaMenu.insertBefore(spacer, newPersonaMenu.firstChild);
+
+        // 페르소나 이름 표시 (대표 프로필인 경우 '<-' 표시 추가)
+        const textElem = newPersonaMenu.childNodes.item(2);
+        if (textElem) {
+            textElem.textContent = persona.isRepresentative ? `${persona.name} <-` : persona.name;
+        }
+
+        newPersonaMenu.setAttribute("id", `${index}`);
+
+        //newPersonaMenu.addEventListener('click', () => persona_modal_func(undefined, personas, newPersonaMenu)); // undefined
+
+        personaDiv.appendChild(newPersonaMenu);    });
+
+    const menu = document.querySelector(".css-uxwch2 edj5hvk0");
+    if (menu) {
+        tools.insertAfter(document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0),
+            document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0).childNodes.item(2),
+            personaDiv
+        );
+    } 
+    else {
+        // 메뉴창을 찾지 못하면 body에 추가
+        document.body.appendChild(personaDiv);
+    }
+
+    debug("persona", 0);
 }
 
 
