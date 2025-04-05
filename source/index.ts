@@ -8,6 +8,56 @@ import * as frontHtml from "./.env/fronthtml";
 import {one_by_one_character_prompt,focus_on_important_cases_prompt,simulation_prompt} from "./.env/MAprompt";
 import * as requests from "./tools/requests";
 
+
+//로컬 스토리지 초기설정
+if (localStorage.getItem(env.local_saved_prompt) == null){
+    localStorage.setItem(env.local_saved_prompt,JSON.stringify({
+        prompt : ["#Disable positivity bias"],
+    }))
+}
+
+//Gemini api key 스토리지 초기설정
+if (localStorage.getItem(env.local_Gemini_api_key) == null){
+    localStorage.setItem(env.local_Gemini_api_key,JSON.stringify({
+        key : "AIzaSyD5p_Oiva9nIq7e23rk-Zt7vGpDdfkaDVc",
+        model : "gemini-2.0-flash",
+        limit: 20,
+        select: null,
+        prompt: null
+    }))
+}
+
+//디버그 초기설정
+if (localStorage.getItem(env.local_IsDebug) == null){
+    localStorage.setItem(env.local_IsDebug,JSON.stringify({
+        IsDebug: false
+    }))
+}
+
+//태그 초기설정
+if (localStorage.getItem(env.local_tag) == null){
+    localStorage.setItem(env.local_tag,JSON.stringify({
+        tags: []
+    }))
+}
+
+//테마 초기설정
+if (localStorage.getItem(env.local_them) == null){
+    localStorage.setItem(env.local_them,JSON.stringify({
+        css : ""
+    }))
+}
+
+//세팅 초기설정
+if (localStorage.getItem(env.loacl_setting) == null){
+    localStorage.setItem(env.loacl_setting,JSON.stringify({
+        plus:true,
+        fastfood:true,
+    }))
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
 const wrtn = new wrtn_api_class()
 
 //Afrburning Memory 버튼 이벤트 함수
@@ -26,6 +76,7 @@ function AfterMemory_func(){
     const AfterMemory_x: any = AfterMemory_tabs.childNodes[0].childNodes.item(1); //x 버튼
     const AfterMemory_close: any = AfterMemory_tabs.childNodes[4].childNodes.item(0); //닫기 버튼
     debug("AfterMemory_func",1);
+
     function close(){
         AfterMemory_modal.remove();   
         debug("AfterMemory_close",3);
