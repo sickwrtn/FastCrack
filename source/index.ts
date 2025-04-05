@@ -194,48 +194,53 @@ export function AfterMemory_func(){
 }
 
 //페르소나 목록을 누를시
-function persona_modal_func(elements: HTMLElement,data: Array<interfaces.characterChatProfile>,personaL: any){
-    var m_i = 0;
-    for (const m of data) {
-        if (`${m_i}` == personaL.id) {
-            var mpid = m._id; //뭔지 모르겠지만 혹시몰라서 안지움
-            var name = m.name; //페르소나 이름 가져오기
-            var information = m.information; //페르소나 정보 가져오기
-        }
-        m_i++;
-    }
-    const persona_popup = new popup("페르소나");
-    persona_popup.open();
+function OpenPersona(elements: HTMLElement,data: Array<interfaces.characterChatProfile>,personaL: any){
+    var mpid,name,information;
 
-    var personal_modal_name = persona_popup.addTextarea("이름","나의 이름","캐릭터가 불러줄 나의 이름을 입력해 주세요",12); 
-    personal_modal_name.setValue(name);
-    var personal_modal_info = persona_popup.addTextarea("정보","성별,나이,외형 등","캐릭터가 기억할 나의 정보를 입력해주세요",100,100);
-    personal_modal_info.setValue(information);
+    data.forEach((persona,index)=>{
+        if (`${index}` == personaL.id) {
+            mpid = persona._id; //뭔지 모르겠지만 혹시몰라서 안지움
+            name = persona.name; //페르소나 이름 가져오기
+            information = persona.information; //페르소나 정보 가져오기
+        }
+    })
+    //모달 팝업 객체 생성
+    const PersonaModal = new popup("페르소나");
+    //모달 팝업 열기
+    PersonaModal.open();
+    //이름을 받을 textarea 생성
+    var PersonaModalName = PersonaModal.addTextarea("이름","나의 이름","캐릭터가 불러줄 나의 이름을 입력해 주세요",12); 
+    PersonaModalName.setValue(name);
+    //정보를 받을 textarea 생성
+    var PersonaModalInformation = PersonaModal.addTextarea("정보","성별,나이,외형 등","캐릭터가 기억할 나의 정보를 입력해주세요",100,100);
+    PersonaModalInformation.setValue(information);
 
     //모달 등록버튼을 눌렀을시
-    persona_popup.setSumbit("등록",()=>{
+    PersonaModal.setSumbit("등록",()=>{
         //모달의 내용을 조합해 페르소나 등록 및 대표프로필로 설정
-        var re = wrtn.setPersona(mpid,personal_modal_name.getValue(),personal_modal_info.getValue(),true);
+        var re = wrtn.setPersona(mpid,PersonaModalName.getValue(),PersonaModalInformation.getValue(),true);
         if (re.result == "SUCCESS"){
             alert("페르소나 등록 성공!");
-            persona_popup.close();
+            PersonaModal.close();
+            //페르소나 재설정
             openPersonaMenu(elements);
         }
         else{
             alert("페르소나 등록 실패!");
-            persona_popup.close();
+            PersonaModal.close();
         }
     })
-    persona_popup.setClose("닫기",()=>{
-        persona_popup.close()
+
+    PersonaModal.setClose("닫기",()=>{
+        PersonaModal.close()
         debug("personal_modal_Cbtn",3);
     })
+
     debug("personaL",3);
 }
 //페르소나 버튼 누를시
 export function openPersonaMenu(elements: HTMLElement){
     let personas;
-
     try {
         personas = wrtn.getPersona(); // 페르소나 데이터 가져오기
         if (personas.length === 0) {
@@ -278,7 +283,7 @@ export function openPersonaMenu(elements: HTMLElement){
         newPersonaMenu.setAttribute("id", `${index}`);
 
         // 이벤트 리스너
-        newPersonaMenu.addEventListener('click', () => persona_modal_func(elements, personas, newPersonaMenu)); 
+        newPersonaMenu.addEventListener('click', () => OpenPersona(elements, personas, newPersonaMenu)); 
 
         personaDiv.appendChild(newPersonaMenu);    
     });
