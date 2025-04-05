@@ -8,6 +8,7 @@ import * as frontHtml from "./.env/fronthtml";
 import {one_by_one_character_prompt,focus_on_important_cases_prompt,simulation_prompt} from "./.env/MAprompt";
 import * as requests from "./tools/requests";
 const wrtn = new wrtn_api_class()
+
 //Afrburning Memory 버튼 이벤트 함수
 export function AfterMemory_func(){
     debug("AfterMemory",3);
@@ -305,42 +306,45 @@ export function openPersonaMenu(elements: HTMLElement){
     debug("persona", 0);
 }
 
-let lastest = "";
-createInterval(setStrict((clear)=>{
-    if (lastest !== document.URL) {
-        if (document.URL.includes("u")) {
-            // 사이드바 Element를 가져옴
-            const sidebar = document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0) as HTMLElement;
+function main(){
+    let lastest = "";
+    createInterval(setStrict((clear)=>{
+        if (lastest !== document.URL) {
+            if (document.URL.includes("u")) {
+                // 사이드바 Element를 가져옴
+                const sidebar = document.getElementsByClassName("css-uxwch2 edj5hvk0").item(0) as HTMLElement;
 
-            // 이미 memoryAfterburner가 있는지 확인
-            if (!document.getElementById("memoryAfterburner")) {
-                const memoryAfterbuner = sidebar.childNodes.item(0).cloneNode(true) as HTMLElement;
-                memoryAfterbuner.id = "memoryAfterburner";
+                // 이미 memoryAfterburner가 있는지 확인
+                if (!document.getElementById("memoryAfterburner")) {
+                    const memoryAfterbuner = sidebar.childNodes.item(0).cloneNode(true) as HTMLElement;
+                    memoryAfterbuner.id = "memoryAfterburner";
 
-                //ma 함수 실행
-                memoryAfterbuner.childNodes.item(1).textContent = "MemoryAfterburner";
-                memoryAfterbuner.addEventListener("click", setStrict(() => AfterMemory_func()));
-                
-                sidebar.appendChild(memoryAfterbuner);
-            }
+                    //ma 함수 실행
+                    memoryAfterbuner.childNodes.item(1).textContent = "MemoryAfterburner";
+                    memoryAfterbuner.addEventListener("click", setStrict(() => AfterMemory_func()));
+                    
+                    sidebar.appendChild(memoryAfterbuner);
+                }
 
-            // 이미 페르소나가 있는지 확인
-            if (!document.getElementById("personaPanel")) {
-                const persona = sidebar.childNodes.item(0).cloneNode(true) as HTMLElement;
-                persona.id = "personaPanel";
-                
-    
-                //pe 함수 실행
-                persona.childNodes.item(1).textContent = "페르소나";
-                persona.addEventListener("click", setStrict(() => openPersonaMenu(persona)));
-                
-                sidebar.appendChild(persona);
+                // 이미 페르소나가 있는지 확인
+                if (!document.getElementById("personaPanel")) {
+                    const persona = sidebar.childNodes.item(0).cloneNode(true) as HTMLElement;
+                    persona.id = "personaPanel";
+                    
+        
+                    //pe 함수 실행
+                    persona.childNodes.item(1).textContent = "페르소나";
+                    persona.addEventListener("click", setStrict(() => openPersonaMenu(persona)));
+                    
+                    sidebar.appendChild(persona);
+                }
             }
         }
-    }
-    lastest = document.URL;
-}))
+        lastest = document.URL;
+    }))
+}
 
+window.onload = () => main();
 //퍼블리시
 /*
 createInterval(setStrict((clear)=>{
