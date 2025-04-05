@@ -292,9 +292,9 @@ class my_struct implements interfaces.my_struct{
     }
     //페르소나 수정
     setPersona(personaId: string,name: string,information: string,isRepresentative: boolean): interfaces.response{
-        let wrtn_uid = requests.getAfetch(env.wrtn_api + '/user').data.wrtnUid;
-        let user_pid = requests.getAfetch(env.wrtn_api + `/character-profiles/${wrtn_uid}`).data._id;
-        let result = requests.patchAfetch(env.wrtn_api  + `/character-profiles/${user_pid}/character-chat-profiles/${personaId}`,{
+        let wrtn_uid = requests.getAfetch(env.wrtn_api + '/character/character-profiles').data.wrtnUid;
+        let user_pid = requests.getAfetch(env.wrtn_api + `/character/character-profiles/${wrtn_uid}`).data._id;
+        let result = requests.patchAfetch(env.wrtn_api  + `/character/character-profiles/${user_pid}/character-chat-profiles/${personaId}`,{
             isRepresentative: isRepresentative,
             name: name,
             information: information,
