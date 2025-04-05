@@ -1,4 +1,4 @@
-# FastWrtn Dev Version
+# FastCrack Dev Version
 뤼튼 편의성 개선 확장 프로그램 개발자 버전
 # 사용법
 
