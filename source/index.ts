@@ -40,20 +40,14 @@ createInterval(setStrict((clear)=>{
     lastest = document.URL;
 }))
 
-
+//퍼블리시
 /*
-// 이미 페르소나가 있는지 확인
-if (!document.getElementById("personaPanel")) {
-    const pe = sidebar.childNodes.item(0).cloneNode(true) as HTMLElement;
-    pe.id = "personaPanel";
-    
-    const chatMenus = new chatroom_menus_class();
-    chatMenus.add(env.persona_name,env.persona_svg_d,() => persona_change(chatMenus));
-
-    //pe 함수 실행
-    pe.addEventListener("click", setStrict(() => persona_change(chatMenus)));
-    pe.childNodes.item(1).textContent = "페르소나";
-
-    sidebar.appendChild(pe);
-}
+createInterval(setStrict((clear)=>{
+    if (lastest !== document.URL) {
+        if (document.URL.includes("my")) {
+            
+        }
+    }
+    lastest = document.URL;
+}))
 */
