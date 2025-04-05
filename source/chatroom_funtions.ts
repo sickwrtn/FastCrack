@@ -293,7 +293,7 @@ export function openPersonaMenu(elements: HTMLElement){
 
         if (thirdChild) {
             
-            alert("3번째 자식에 추가");
+            //alert("3번째 자식에 추가");
             container.appendChild(personaDiv);
         } 
         else {
