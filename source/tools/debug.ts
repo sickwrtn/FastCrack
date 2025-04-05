@@ -13,13 +13,13 @@ export function debug(content: string,code: number | null = null): void{
             console.log(`[FAST WRTN][DEBUG](request) ${content} loaded`);
         }
         else if(code == 3){
-            console.log(`[FAST WRTN][DEBUG](event) ${content} evented`)
+            console.log(`[FAST WRTN][DEBUG](event) ${content} evented`);
         }
         else if(code == 4){
-            console.log(`[FAST WRTN][DEBUG](for) ${content} completed`)
+            console.log(`[FAST WRTN][DEBUG](for) ${content} completed`);
         }
         else if(code == 5){
-            console.log(`[FAST WRTN][DEBUG](add) ${content} added`)
+            console.log(`[FAST WRTN][DEBUG](add) ${content} added`);
         }
         else{
             console.log(`[FAST WRTN][DEBUG] ${content}`);

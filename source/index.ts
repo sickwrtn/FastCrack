@@ -7,10 +7,11 @@ import * as env from "./.env/env";
 import * as frontHtml from "./.env/fronthtml";
 import {one_by_one_character_prompt,focus_on_important_cases_prompt,simulation_prompt} from "./.env/MAprompt";
 import * as requests from "./tools/requests";
+
 const wrtn = new wrtn_api_class()
 
 //Afrburning Memory 버튼 이벤트 함수
-export function AfterMemory_func(){
+function AfterMemory_func(){
     debug("AfterMemory",3);
     const AfterMemory_modal: any = document.createElement("modal");//Afterburning Memory 모달 팝업
     AfterMemory_modal.innerHTML = frontHtml.AfterMemory_front_html;
@@ -232,8 +233,9 @@ function persona_modal_func(elements: HTMLElement,data: Array<interfaces.charact
     })
     debug("personaL",3);
 }
+
 //페르소나 버튼 누를시
-export function openPersonaMenu(elements: HTMLElement){
+function openPersonaMenu(elements: HTMLElement){
     let personas;
 
     try {
@@ -259,8 +261,8 @@ export function openPersonaMenu(elements: HTMLElement){
     }
 
     // 페르소나 목록을 담을 div 생성 (컨테이너 역할)
-    const personaDiv = document.createElement("div");
-    personaDiv.setAttribute("id", "personas");
+    const personaContainer = document.createElement("div");
+    personaContainer.setAttribute("id", "personas");
 
     personas.forEach((persona, index) => {
         const newPersonaMenu = elements.cloneNode(true) as HTMLElement;
@@ -275,32 +277,34 @@ export function openPersonaMenu(elements: HTMLElement){
             textElem.textContent = persona.isRepresentative ? `${persona.name} <-` : persona.name;
         }
 
+        // 인덱싱
         newPersonaMenu.setAttribute("id", `${index}`);
 
         // 이벤트 리스너
         newPersonaMenu.addEventListener('click', () => persona_modal_func(elements, personas, newPersonaMenu)); 
 
-        personaDiv.appendChild(newPersonaMenu);    
+        
+        personaContainer.appendChild(newPersonaMenu);    
     });
     
-    const container = document.querySelector(".css-uxwch2");
-    if (container) {
-        const thirdChild = container.children[2];
+    // 사이드바 메뉴 클래스 이름으로 불러오기
+    const sidebarMenu = document.querySelector(".css-uxwch2");
+    if (sidebarMenu) {
+        const thirdChild = sidebarMenu.children[2];
 
+        // 페르소나의 유무 확인
         if (thirdChild) {
-            
-            //alert("3번째 자식에 추가");
-            container.appendChild(personaDiv);
+            sidebarMenu.appendChild(personaContainer);
         } 
         else {
             alert("3번째 자식이 없음");
-            container.appendChild(personaDiv);
+            sidebarMenu.appendChild(personaContainer);
         }
     } 
     else {
-        // 지정한 클래스 요소를 찾지 못하면 body에 추가
-        alert("no container");
-        document.body.appendChild(personaDiv);
+        // 지정된 클래스의 유무
+        alert("no sidebarMenu");
+        document.body.appendChild(personaContainer);
     }
 
     debug("persona", 0);
@@ -308,6 +312,7 @@ export function openPersonaMenu(elements: HTMLElement){
 
 function main(){
     let lastest = "";
+
     createInterval(setStrict((clear)=>{
         if (lastest !== document.URL) {
             if (document.URL.includes("u")) {
@@ -343,6 +348,7 @@ function main(){
         lastest = document.URL;
     }))
 }
+
 
 window.onload = () => main();
 //퍼블리시
