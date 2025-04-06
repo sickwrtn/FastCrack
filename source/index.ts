@@ -367,9 +367,6 @@ function OpenPersonaMenu(elements: HTMLElement){
 }
 
 
-
-
-
 function createPublishButton(label: string, visibility: string, idxNumber: number, originalButton: HTMLButtonElement): HTMLButtonElement {
     const publishButton = originalButton.cloneNode(true) as HTMLButtonElement;
 
@@ -383,13 +380,13 @@ function createPublishButton(label: string, visibility: string, idxNumber: numbe
     }
     
     publishButton.addEventListener("click", () => {
-        if(idxNumber == 1){ // 캐릭터 복사해서 public으로 새롭게 만들기기
+        if(idxNumber == 1){ // 클립보드의 캐릭터 복사해서 public으로 새롭게 만들기기
             alert(`${label} ( ${visibility} ) 완료!`);
         }
-        else if(idxNumber == 2){ // 캐릭터 복사해서 private으로 새롭게 만들기기
+        else if(idxNumber == 2){ // 클립보드의 캐릭터 복사해서 private으로 새롭게 만들기기
             alert(`${label} ( ${visibility} ) 완료!`);
         }
-        else if(idxNumber == 3){ // 캐릭터 복사해서 linkonly로 새롭게 만들기기
+        else if(idxNumber == 3){ // 클립보드의 캐릭터 복사해서 linkonly로 새롭게 만들기기
             alert(`${label} ( ${visibility} ) 완료!`);
         }
         else{
@@ -443,10 +440,7 @@ function main(){
                     const publishContainer = document.getElementsByClassName("css-1r7jgn9 edj5hvk0").item(0) as HTMLElement;
                 
                     // 존재하고, 아직 버튼들이 없다면 append
-                    if (publishContainer && !document.getElementById("PublishButton_1")) {
-                        //const publishButtons = document.createElement("div");
-                        //publishButtons.id = "publishButtons";
-                        
+                    if (publishContainer && !document.getElementById("PublishButton_1")) {                
                         const clonedPublishButton = publishContainer.childNodes.item(0).cloneNode(true) as HTMLButtonElement;
 
                         // 버튼들 생성 및 붙이기
