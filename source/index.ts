@@ -370,41 +370,6 @@ function OpenPersonaMenu(elements: HTMLElement){
 
 
 
-
-
-
-function observeForElement(className: string) {
-    return new Promise<HTMLElement>((resolve) => {
-        const observer = new MutationObserver((mutations, obs) => {
-        const element = document.getElementsByClassName(className).item(0) as HTMLElement;
-        if (element) {
-            obs.disconnect();  // 더 이상 감시할 필요가 없으므로 off
-            resolve(element);
-        }
-        });
-
-        // document.body(또는 상위 DOM)에서 childList, subtree 변경 감지
-        observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        });
-    });
-}
-  
-async function initPublishButtons_MO() {
-    const container = await observeForElement("css-1r7jgn9 edj5hvk0");
-
-    // 이제 container가 존재하므로, 자식으로 버튼을 붙이면 됨
-    if (!document.getElementById("publishButtons")) {
-        const publishButtons = document.createElement("div");
-        publishButtons.id = "publishButtons";
-        //publishButtons.appendChild(createPublishButton("공개", "public", 1));
-        //publishButtons.appendChild(createPublishButton("비공개", "private", 2));
-        //publishButtons.appendChild(createPublishButton("링크 공개", "linkonly", 3));
-        container.appendChild(publishButtons);
-    }
-}
-
 function createPublishButton(label: string, visibility: string, idxNumber: number, originalButton: HTMLButtonElement): HTMLButtonElement {
     const publishButton = originalButton.cloneNode(true) as HTMLButtonElement;
 
@@ -418,21 +383,18 @@ function createPublishButton(label: string, visibility: string, idxNumber: numbe
     }
     
     publishButton.addEventListener("click", () => {
-      if(idxNumber == 1){
-        alert(`${label} ( ${visibility} ) 완료!`);
-        //wrtn.getMycharacter(character._id).publish("public");
-      }
-      else if(idxNumber == 2){
-        alert(`${label} ( ${visibility} ) 완료!`);
-        //wrtn.getMycharacter(character._id).publish("private");
-      }
-      else if(idxNumber == 3){
-        alert(`${label} ( ${visibility} ) 완료!`);
-        //wrtn.getMycharacter(character._id).publish("linkonly");
-      }
-      else{
-        alert("올바르지 않은 idx");
-      }
+        if(idxNumber == 1){ // 캐릭터 복사해서 public으로 새롭게 만들기기
+            alert(`${label} ( ${visibility} ) 완료!`);
+        }
+        else if(idxNumber == 2){ // 캐릭터 복사해서 private으로 새롭게 만들기기
+            alert(`${label} ( ${visibility} ) 완료!`);
+        }
+        else if(idxNumber == 3){ // 캐릭터 복사해서 linkonly로 새롭게 만들기기
+            alert(`${label} ( ${visibility} ) 완료!`);
+        }
+        else{
+            alert("올바르지 않은 idx");
+        }
     });
     
     return publishButton;
@@ -475,8 +437,6 @@ function main(){
                 }
             }
 
-
-
             if (document.URL.includes("my")) {
                 const observer = new MutationObserver((mutations, obs) => {
                     // 원하는 클래스의 컨테이너가 있는지 찾음
@@ -496,11 +456,11 @@ function main(){
                     }
                 });
                 
-                  // 감시 옵션: 자식 노드(하위 트리) 변경 시 실행
-                  observer.observe(document.body, {
-                    childList: true,
-                    subtree: true,
-                  });
+                // 감시 옵션: 자식 노드(하위 트리) 변경 시 실행
+                observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                });
             }
         lastest = document.URL;
     }}))
