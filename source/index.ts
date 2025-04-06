@@ -275,7 +275,7 @@ function OpenPersona(elements: HTMLElement,data: Array<interfaces.characterChatP
             alert("페르소나 등록 성공!");
             PersonaModal.close();
             //페르소나 재설정
-            openPersonaMenu(elements);
+            OpenPersonaMenu(elements);
         }
         else{
             alert("페르소나 등록 실패!");
@@ -292,7 +292,7 @@ function OpenPersona(elements: HTMLElement,data: Array<interfaces.characterChatP
 }
 
 //페르소나 버튼 누를시
-function openPersonaMenu(elements: HTMLElement){
+function OpenPersonaMenu(elements: HTMLElement){
     let personas;
     try {
         personas = wrtn.getPersona(); // 페르소나 데이터 가져오기
@@ -366,6 +366,80 @@ function openPersonaMenu(elements: HTMLElement){
     debug("persona", 0);
 }
 
+
+
+
+
+
+
+
+function observeForElement(className: string) {
+    return new Promise<HTMLElement>((resolve) => {
+        const observer = new MutationObserver((mutations, obs) => {
+        const element = document.getElementsByClassName(className).item(0) as HTMLElement;
+        if (element) {
+            obs.disconnect();  // 더 이상 감시할 필요가 없으므로 off
+            resolve(element);
+        }
+        });
+
+        // document.body(또는 상위 DOM)에서 childList, subtree 변경 감지
+        observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        });
+    });
+}
+  
+async function initPublishButtons_MO() {
+    const container = await observeForElement("css-1r7jgn9 edj5hvk0");
+
+    // 이제 container가 존재하므로, 자식으로 버튼을 붙이면 됨
+    if (!document.getElementById("publishButtons")) {
+        const publishButtons = document.createElement("div");
+        publishButtons.id = "publishButtons";
+        //publishButtons.appendChild(createPublishButton("공개", "public", 1));
+        //publishButtons.appendChild(createPublishButton("비공개", "private", 2));
+        //publishButtons.appendChild(createPublishButton("링크 공개", "linkonly", 3));
+        container.appendChild(publishButtons);
+    }
+}
+
+function createPublishButton(label: string, visibility: string, idxNumber: number, originalButton: HTMLButtonElement): HTMLButtonElement {
+    const publishButton = originalButton.cloneNode(true) as HTMLButtonElement;
+
+    // id 할당
+    publishButton.id = "PublishButton_" + idxNumber
+
+    // 버튼 안에 있는 <p>의 글자 바꾸기
+    const pTag = publishButton.querySelector("p");
+    if (pTag) {
+      pTag.innerText = label; 
+    }
+    
+    publishButton.addEventListener("click", () => {
+      if(idxNumber == 1){
+        alert(`${label} ( ${visibility} ) 완료!`);
+        //wrtn.getMycharacter(character._id).publish("public");
+      }
+      else if(idxNumber == 2){
+        alert(`${label} ( ${visibility} ) 완료!`);
+        //wrtn.getMycharacter(character._id).publish("private");
+      }
+      else if(idxNumber == 3){
+        alert(`${label} ( ${visibility} ) 완료!`);
+        //wrtn.getMycharacter(character._id).publish("linkonly");
+      }
+      else{
+        alert("올바르지 않은 idx");
+      }
+    });
+    
+    return publishButton;
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
 function main(){
     let lastest = "";
 
@@ -380,7 +454,7 @@ function main(){
                     const memoryAfterbuner = sidebar.childNodes.item(0).cloneNode(true) as HTMLElement;
                     memoryAfterbuner.id = "memoryAfterburner";
 
-                    //ma 함수 실행
+                    //AfterMemory_func 함수 실행
                     memoryAfterbuner.childNodes.item(1).textContent = "MemoryAfterburner";
                     memoryAfterbuner.addEventListener("click", setStrict(() => AfterMemory_func()));
                     
@@ -393,28 +467,44 @@ function main(){
                     persona.id = "personaPanel";
                     
         
-                    //pe 함수 실행
+                    //OpenPersonaMenu 함수 실행
                     persona.childNodes.item(1).textContent = "페르소나";
-                    persona.addEventListener("click", setStrict(() => openPersonaMenu(persona)));
+                    persona.addEventListener("click", setStrict(() => OpenPersonaMenu(persona)));
                     
                     sidebar.appendChild(persona);
                 }
             }
-        }
+
+
+
+            if (document.URL.includes("my")) {
+                const observer = new MutationObserver((mutations, obs) => {
+                    // 원하는 클래스의 컨테이너가 있는지 찾음
+                    const publishContainer = document.getElementsByClassName("css-1r7jgn9 edj5hvk0").item(0) as HTMLElement;
+                
+                    // 존재하고, 아직 버튼들이 없다면 append
+                    if (publishContainer && !document.getElementById("PublishButton_1")) {
+                        //const publishButtons = document.createElement("div");
+                        //publishButtons.id = "publishButtons";
+                        
+                        const clonedPublishButton = publishContainer.childNodes.item(0).cloneNode(true) as HTMLButtonElement;
+
+                        // 버튼들 생성 및 붙이기
+                        publishContainer.appendChild(createPublishButton("공개", "public", 1, clonedPublishButton));
+                        publishContainer.appendChild(createPublishButton("비공개", "private", 2, clonedPublishButton));
+                        publishContainer.appendChild(createPublishButton("링크 공개", "linkonly", 3, clonedPublishButton));
+                    }
+                });
+                
+                  // 감시 옵션: 자식 노드(하위 트리) 변경 시 실행
+                  observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                  });
+            }
         lastest = document.URL;
-    }))
+    }}))
 }
 
 
 window.onload = () => main();
-//퍼블리시
-/*
-createInterval(setStrict((clear)=>{
-    if (lastest !== document.URL) {
-        if (document.URL.includes("my")) {
-            
-        }
-    }
-    lastest = document.URL;
-}))
-*/

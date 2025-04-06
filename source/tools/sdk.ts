@@ -68,7 +68,8 @@ class my_struct implements interfaces.my_struct{
         보내야되는 json 데이터가 다름
         거기다 보내야 되는 내용에 startingSets가 []이면 안되더라
         startingSets가 없거나 아면 요소가 하나 이상 있어야됨
-            */
+        */
+       
         //위의 내용에 의거하여 startingSets가 []인지 아닌지 판별
         if (json_data.startingSets.length == 0){
             let Set_json = {
@@ -320,15 +321,15 @@ class my_struct implements interfaces.my_struct{
     //제작한 캐릭터 목록
     async getMycharacters(cursor: string,load_limit: number): Promise<interfaces.response | null> {
         if (cursor != ""){
-            var request = await fetch(env.wrtn_api + `/characters/me?limit=${load_limit}&cursor=${cursor}`, this.getHeader);
-            debug("GET " + env.wrtn_api + `/characters/me?limit=${load_limit}&cursor=${cursor}`,2);
+            var request = await fetch(env.wrtn_api + `/character/character-profiles/me?limit=${load_limit}&cursor=${cursor}`, this.getHeader);
+            debug("GET " + env.wrtn_api + `/character/character-profiles/me?limit=${load_limit}&cursor=${cursor}`,2);
         }
         else if (cursor == null){
             return null;
         }
         else{
             var request = await fetch(env.wrtn_api + `/characters/me?limit=${load_limit}`, this.getHeader);
-            debug("GET " + env.wrtn_api + `/characters/me?limit=${load_limit}`,2);
+            debug("GET " + env.wrtn_api + `/character/character-profiles/me?limit=${load_limit}`,2);
         }
         let characters = await request.json();
         return characters;
@@ -336,15 +337,15 @@ class my_struct implements interfaces.my_struct{
     //query를 사용한 캐릭터 조회
     async character_search(query: string,cursor: string,sort: string,load_limit: number): Promise<interfaces.response | null>{
         if (cursor != ""){
-            var request = await fetch(env.wrtn_api + `/characters/search?limit=${load_limit}&query=${query}&sort=${sort}&cursor=${cursor}`);
-            debug("GET " + env.wrtn_api + `/characters/search?limit=${load_limit}&query=${query}&sort=${sort}&cursor=${cursor}`,2);
+            var request = await fetch(env.wrtn_api + `/character/character-profiles/search?limit=${load_limit}&query=${query}&sort=${sort}&cursor=${cursor}`);
+            debug("GET " + env.wrtn_api + `/character/character-profiles/search?limit=${load_limit}&query=${query}&sort=${sort}&cursor=${cursor}`,2);
         }
         else if (cursor == null){
             return null;
         }
         else{
-            var request = await fetch(env.wrtn_api + `/characters/search?limit=${load_limit}&query=${query}&sort=${sort}`);
-            debug("GET " + env.wrtn_api + `/characters/search?limit=${load_limit}&query=${query}&sort=${sort}`,2);
+            var request = await fetch(env.wrtn_api + `/character/character-profiles/search?limit=${load_limit}&query=${query}&sort=${sort}`);
+            debug("GET " + env.wrtn_api + `/character/character-profiles/search?limit=${load_limit}&query=${query}&sort=${sort}`,2);
         }
         let result = await request.json();
         return result;
