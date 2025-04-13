@@ -13,13 +13,13 @@ class my_struct implements interfaces.my_struct{
     }
     //this.json 업데이트
     reload(): interfaces.response{
-        let request = requests.getAfetch(env.wrtn_api + `/characters/me/${this.json._id}`);
+        let request = requests.getAfetch(env.wrtn_api + `/characters/characters/me/${this.json._id}`);
         this.json = request.data;
         return request;
     }
     //json 화된 캐챗 가져오기
     get(): interfaces.myCharacter{
-        let request = requests.getAfetch(env.wrtn_api + `/characters/me/${this.json._id}`);
+        let request = requests.getAfetch(env.wrtn_api + `/characters/characters/me/${this.json._id}`);
         return request.data;
     }
     //캐챗을 입력한 json으로 변경
@@ -382,7 +382,7 @@ class my_struct implements interfaces.my_struct{
     }
     //제작한 캐릭터 불러오기
     getMycharacter(charId: string): interfaces.my_struct{
-        let request = requests.getAfetch(env.wrtn_api + `/characters/me/${charId}`);
+        let request = requests.getAfetch(env.wrtn_api + `/character/characters/me/${charId}`);
         return new my_struct(request.data);
     }
     //메시지 불러오기

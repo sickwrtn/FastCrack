@@ -8,6 +8,8 @@ import * as frontHtml from "./.env/fronthtml";
 import {one_by_one_character_prompt,focus_on_important_cases_prompt,simulation_prompt} from "./.env/MAprompt";
 import * as requests from "./tools/requests";
 
+import { load_in_cursor } from "./tools/functions";
+
 
 //로컬 스토리지 초기설정
 if (localStorage.getItem(env.local_saved_prompt) == null){
@@ -367,11 +369,8 @@ function OpenPersonaMenu(elements: HTMLElement){
 }
 
 
-function createPublishButton(label: string, visibility: string, idxNumber: number, originalButton: HTMLButtonElement): HTMLButtonElement {
+function createPublishButton(label: string, visibility: string, PublishFunction: Function, originalButton: HTMLButtonElement): HTMLButtonElement {
     const publishButton = originalButton.cloneNode(true) as HTMLButtonElement;
-
-    // id 할당
-    publishButton.id = "PublishButton_" + idxNumber
 
     // 버튼 안에 있는 <p>의 글자 바꾸기
     const pTag = publishButton.querySelector("p");
@@ -379,20 +378,7 @@ function createPublishButton(label: string, visibility: string, idxNumber: numbe
       pTag.innerText = label; 
     }
     
-    publishButton.addEventListener("click", () => {
-        if(idxNumber == 1){ // 클립보드의 캐릭터 복사해서 public으로 새롭게 만들기기
-            alert(`${label} ( ${visibility} ) 완료!`);
-        }
-        else if(idxNumber == 2){ // 클립보드의 캐릭터 복사해서 private으로 새롭게 만들기기
-            alert(`${label} ( ${visibility} ) 완료!`);
-        }
-        else if(idxNumber == 3){ // 클립보드의 캐릭터 복사해서 linkonly로 새롭게 만들기기
-            alert(`${label} ( ${visibility} ) 완료!`);
-        }
-        else{
-            alert("올바르지 않은 idx");
-        }
-    });
+    publishButton.addEventListener("click", () => PublishFunction);
     
     return publishButton;
 }
@@ -435,18 +421,55 @@ function main(){
             }
 
             if (document.URL.includes("my")) {
+
+                let currentClickedId = "";
+                
+                load_in_cursor("", [], wrtn, "my", (my_character_list: Array<interfaces.myCharacter>) => {
+                    // 1) .css-k24aeo.edj5hvk1 클래스로 되어 있는 요소들을 모두 가져오기
+                    const elements = document.querySelectorAll(".css-k24aeo.edj5hvk1");
+                
+                    // 2) for문을 돌며 각 요소에 캐릭터 id를 설정 + 클릭 이벤트 등록
+                    for (let i = 0; i < elements.length; i++) {
+                        // 캐릭터가 더 적으면 중간에 멈춤
+                        if (!my_character_list[i]) break;
+                
+                        const button = elements[i] as HTMLButtonElement;
+                        button.id = my_character_list[i]._id;  // 버튼 id 세팅
+                
+                        // 3) 클릭 시 버튼 id를 특정 변수에 저장
+                        button.addEventListener("click", (e: Event) => {
+                            const clickedButton = e.currentTarget as HTMLButtonElement;
+                            currentClickedId = clickedButton.id;  // 현재 클릭된 버튼의 id
+                
+                            // 원하는 변수에 저장하거나, 원하는 로직 수행
+                            console.log("클릭된 ID:", currentClickedId);
+                        });
+                    }
+                });
+
+
                 const observer = new MutationObserver((mutations, obs) => {
                     // 원하는 클래스의 컨테이너가 있는지 찾음
                     const publishContainer = document.getElementsByClassName("css-1r7jgn9 edj5hvk0").item(0) as HTMLElement;
                 
                     // 존재하고, 아직 버튼들이 없다면 append
-                    if (publishContainer && !document.getElementById("PublishButton_1")) {                
+                    if (publishContainer && publishContainer.childNodes.length < 5) {                
                         const clonedPublishButton = publishContainer.childNodes.item(0).cloneNode(true) as HTMLButtonElement;
 
                         // 버튼들 생성 및 붙이기
-                        publishContainer.appendChild(createPublishButton("공개", "public", 1, clonedPublishButton));
-                        publishContainer.appendChild(createPublishButton("비공개", "private", 2, clonedPublishButton));
-                        publishContainer.appendChild(createPublishButton("링크 공개", "linkonly", 3, clonedPublishButton));
+                        publishContainer.appendChild(createPublishButton("공개", "public", ()=>{
+                            wrtn.getMycharacter(currentClickedId).publish("public");
+                        }, clonedPublishButton));
+                        
+
+                        publishContainer.appendChild(createPublishButton("비공개", "private", ()=>{
+                            wrtn.getMycharacter(currentClickedId).publish("private");
+                        }, clonedPublishButton));
+
+
+                        publishContainer.appendChild(createPublishButton("링크 공개", "linkonly", ()=>{
+                            wrtn.getMycharacter(currentClickedId).publish("linkonly");
+                        }, clonedPublishButton));
                     }
                 });
                 
